@@ -64,7 +64,6 @@ RETURN = r'''
     "validFrom": "2020-10-05T20:10:13+02:00"
 '''
 
-import base64
 import json
 import re
 from ansible.module_utils.basic import AnsibleModule

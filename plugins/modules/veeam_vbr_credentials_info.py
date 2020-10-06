@@ -68,6 +68,7 @@ def run_module():
     # for consumption, for example, in a subsequent task
     result = dict(
         changed=False,
+        token_type= ''
     )
 
     # the AnsibleModule object will be our abstraction working with Ansible
@@ -96,9 +97,17 @@ def run_module():
 
     method = "Post"
     req, info = fetch_url(module, request_url, headers=headers, method=method, data=payload)
-    #resp_dict = json.loads(req.read())
-    #access_token = resp_dict['access_token']
-    #result['access_token'] = resp_dict['access_token']
+
+    resp = json.loads(req.read())
+
+    headers = {
+        'x-api-version': '1.0-rev1',
+        'Authorization': 'Bearer ' + resp['access_token']
+        }
+    request_url = 'https://' + request_server + ':' + request_port + '/api/v1/credentials'
+
+    method = "Get"
+    req, info = fetch_url(module, request_url, headers=headers, method=method)
 
     result['msg'] = json.loads(req.read())
     module.exit_json(**result)

@@ -84,7 +84,7 @@ def run_module():
     # state will include any data that you want your module to pass back
     # for consumption, for example, in a subsequent task
     result = dict(
-        changed=False,
+        changed=False
     )
 
     # the AnsibleModule object will be our abstraction working with Ansible

@@ -130,7 +130,7 @@ def run_module():
     # for consumption, for example, in a subsequent task
     result = dict(
         changed=False
-        )
+    )
 
     # the AnsibleModule object will be our abstraction working with Ansible
     # this includes instantiation, a couple of common attr would be the
@@ -152,7 +152,7 @@ def run_module():
         'x-api-version': '1.0-rev1',
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': 'true'
-        }
+    }
 
     request_url = 'https://' + request_server + ':' + request_port + '/api/oauth2/token'
 
@@ -164,7 +164,7 @@ def run_module():
     headers = {
         'x-api-version': '1.0-rev1',
         'Authorization': 'Bearer ' + resp['access_token']
-        }
+    }
     request_url = 'https://' + request_server + ':' + request_port + '/api/v1/credentials'
 
     method = "Get"

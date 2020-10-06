@@ -101,6 +101,8 @@ def run_module():
         server_username=dict(type='str', required=True),
         server_password=dict(type='str', required=True, no_log=True),
         server_port=dict(type='str', default='9419'),
+        state = dict(type = "str", choices = ("absent", "present"), default = "present" ),
+        id=dict(type='str', required=False),
         username=dict(type='str', required=True),
         password=dict(type='str', required=True, no_log=True),
         type=dict(type='str', choices=("Windows", "Linux", "Standard"), default='Standard'),
@@ -108,6 +110,11 @@ def run_module():
         tag=dict(type='str', required=False),
         validate_certs=dict(type='bool', default='no')
     )
+
+    required_if_args = [
+      ["state", "present", ["username", "password"]],
+      ["state", "absent", ["id"]]
+    ]
 
     # seed the result dict in the object
     # we primarily care about changed and state
@@ -124,6 +131,7 @@ def run_module():
     # supports check mode
     module = AnsibleModule(
         argument_spec=module_args,
+        required_if=required_if_args,
         supports_check_mode=False
     )
 
@@ -152,8 +160,6 @@ def run_module():
     credtype = module.params['type']
     description = module.params['description']
     tag = module.params['tag']
-
-
 
     body = {
         'type': credtype, 

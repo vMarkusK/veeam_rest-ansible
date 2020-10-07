@@ -103,8 +103,8 @@ def run_module():
         server_port=dict(type='str', default='9419'),
         state = dict(type = "str", choices = ("absent", "present"), default = "present" ),
         id=dict(type='str', required=False),
-        username=dict(type='str', required=True),
-        password=dict(type='str', required=True, no_log=True),
+        username=dict(type='str', required=False),
+        password=dict(type='str', required=False, no_log=True),
         type=dict(type='str', choices=("Windows", "Linux", "Standard"), default='Standard'),
         description=dict(type='str', required=False),
         tag=dict(type='str', required=False),
@@ -114,6 +114,10 @@ def run_module():
     required_if_args = [
       ["state", "present", ["username", "password"]],
       ["state", "absent", ["id"]]
+    ]
+
+    required_together_args = [
+        ["password", "username"]
     ]
 
     # seed the result dict in the object
@@ -132,12 +136,16 @@ def run_module():
     module = AnsibleModule(
         argument_spec=module_args,
         required_if=required_if_args,
+        required_together=required_together_args,
         supports_check_mode=False
     )
 
-    ## Authenticate
+    ## General
+    state = module.params['state']
     request_server = module.params['server_name']
     request_port = module.params['server_port']
+
+    ## Authenticate
     request_username = module.params['server_username']
     request_password = module.params['server_password']
     payload = 'grant_type=password&username=' + request_username + '&password=' + request_password
@@ -152,39 +160,75 @@ def run_module():
 
     method = "Post"
     req, info = fetch_url(module, request_url, headers=headers, method=method, data=payload)
-    resp = json.loads(req.read())
+
+    if info['status'] != 200:
+        module.fail_json(msg="Fail: %s" % ("Status: " + str(info['status']) + ", Message: " + str(info['msg'])))
+
+    try: 
+        resp = json.loads(req.read())
+    except AttributeError:
+        module.fail_json(msg='Parsing Response Failed', **result)
 
     ## Payload
-    username = module.params['username']
-    password = module.params['password']
-    credtype = module.params['type']
-    description = module.params['description']
-    tag = module.params['tag']
+    if state == 'present':
+        username = module.params['username']
+        password = module.params['password']
+        credtype = module.params['type']
+        description = module.params['description']
+        tag = module.params['tag']
 
-    body = {
-        'type': credtype, 
-        'username': username, 
-        'password': password, 
-        'description': description
-    }
-    bodyjson = json.dumps(body)
-    headers = {
-        'x-api-version': '1.0-rev1',
-        'Authorization': 'Bearer ' + resp['access_token'],
-        'Content-Type': 'application/json'
-    }
-    request_url = 'https://' + request_server + ':' + request_port + '/api/v1/credentials'
+        body = {
+            'type': credtype, 
+            'username': username, 
+            'password': password, 
+            'description': description
+        }
+        bodyjson = json.dumps(body)
+        headers = {
+            'x-api-version': '1.0-rev1',
+            'Authorization': 'Bearer ' + resp['access_token'],
+            'Content-Type': 'application/json'
+        }
+        request_url = 'https://' + request_server + ':' + request_port + '/api/v1/credentials'
 
-    method = "Post"
-    req, info = fetch_url(module, request_url, headers=headers, method=method, data=bodyjson)
-    if req:
-        result['msg'] = json.loads(req.read())
-        result['changed'] = True
-    else:
-        result['failed'] = True
+        method = "Post"
+        req, info = fetch_url(module, request_url, headers=headers, method=method, data=bodyjson)
+
+        if info['status'] != 200:
+            module.fail_json(msg="Fail: %s" % ("Status: " + str(info['status']) + ", Message: " + str(info['msg'])))
+
+        try: 
+            result['msg'] = json.loads(req.read())
+            result['changed'] = True
+        except AttributeError:
+            module.fail_json(msg='Parsing Response Failed', **result)
+
+    if state == 'absent':
+        credid = module.params['id']
+
+        headers = {
+            'x-api-version': '1.0-rev1',
+            'Authorization': 'Bearer ' + resp['access_token']
+        }
+        request_url = 'https://' + request_server + ':' + request_port + '/api/v1/credentials/' + credid
+
+        method = "get"
+        req, info = fetch_url(module, request_url, headers=headers, method=method)
+
+        if info['status'] == 200:
+            method = "Delete"
+            req, info = fetch_url(module, request_url, headers=headers, method=method)
+
+            if info['status'] != 200:
+                module.fail_json(msg="Fail: %s" % ("Status: " + str(info['status']) + ", Message: " + str(info['msg'])))
+
+            try: 
+                #result['msg'] = json.loads(req.read())
+                result['changed'] = True
+            except AttributeError:
+                module.fail_json(msg='Parsing Response Failed', **result)
 
     module.exit_json(**result)
-
 
 def main():
     run_module()

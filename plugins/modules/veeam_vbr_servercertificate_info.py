@@ -74,7 +74,7 @@ def run_module():
     module_args = dict(
         server_name=dict(type='str', required=True),
         server_port=dict(type='str', default='9419'),
-        validate_certs=dict(type='bool', default='no'),
+        validate_certs=dict(type='bool', default='no')
     )
 
     # seed the result dict in the object

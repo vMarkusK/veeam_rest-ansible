@@ -109,13 +109,12 @@ def run_module():
     req, info = fetch_url(module, request_url, headers=headers, method=method)
 
     if info['status'] != 200:
-        result['failed'] = True
-        result['msg'] = info
+        module.fail_json(msg="Fail: %s" % ("Status: " + str(info['status']) + ", Message: " + str(info['msg'])))
 
     try: 
         result['msg'] = json.loads(req.read())
     except AttributeError:
-        result['failed'] = True
+        module.fail_json(msg='Parsing Response Failed', **result)
 
 
     module.exit_json(**result)

@@ -74,7 +74,7 @@ def run_module():
     module_args = dict(
         server_name=dict(type='str', required=True),
         server_port=dict(type='str', default='9419'),
-        validate_certs=dict(type='bool', default='no'),
+        validate_certs=dict(type='bool', default='no')
     )
 
     # seed the result dict in the object
@@ -108,7 +108,15 @@ def run_module():
     method = "Get"
     req, info = fetch_url(module, request_url, headers=headers, method=method)
 
-    result['msg'] = json.loads(req.read())
+    if info['status'] != 200:
+        module.fail_json(msg="Fail: %s" % ("Status: " + str(info['status']) + ", Message: " + str(info['msg'])))
+
+    try: 
+        result['msg'] = json.loads(req.read())
+    except AttributeError:
+        module.fail_json(msg='Parsing Response Failed', **result)
+
+
     module.exit_json(**result)
 
 

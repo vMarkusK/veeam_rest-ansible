@@ -159,8 +159,15 @@ def run_module():
     method = "Post"
     req, info = fetch_url(module, request_url, headers=headers, method=method, data=payload)
 
-    resp = json.loads(req.read())
+    if info['status'] != 200:
+        module.fail_json(msg="Fail: %s" % ("Status: " + str(info['status']) + ", Message: " + str(info['msg'])))
 
+    try: 
+        resp = json.loads(req.read())
+    except AttributeError:
+        module.fail_json(msg='Parsing Response Failed', **result)
+    
+    ## Payload
     headers = {
         'x-api-version': '1.0-rev1',
         'Authorization': 'Bearer ' + resp['access_token']
@@ -170,7 +177,14 @@ def run_module():
     method = "Get"
     req, info = fetch_url(module, request_url, headers=headers, method=method)
 
-    result['msg'] = json.loads(req.read())
+    if info['status'] != 200:
+        module.fail_json(msg="Fail: %s" % ("Status: " + str(info['status']) + ", Message: " + str(info['msg'])))
+
+    try: 
+        result['msg'] = json.loads(req.read())
+    except AttributeError:
+        module.fail_json(msg='Parsing Response Failed', **result)
+
     module.exit_json(**result)
 
 

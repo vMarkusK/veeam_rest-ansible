@@ -51,7 +51,7 @@ EXAMPLES = r'''
 
 RETURN = r'''
 # These are examples of possible return values, and in general should use other names for return values.
-"msg": {
+{
     "automaticallyGenerated": false,
     "issuedBy": "Veeam Backup Server Certificate",
     "issuedTo": "Veeam Backup Server Certificate",
@@ -62,6 +62,7 @@ RETURN = r'''
     "thumbprint": "E2FFF23FD0A7A47A4D3C4689AD9371F874CC124E",
     "validBy": "2030-10-05T20:10:13+02:00",
     "validFrom": "2020-10-05T20:10:13+02:00"
+}
 '''
 
 import json

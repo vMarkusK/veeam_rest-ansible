@@ -7,7 +7,7 @@ __metaclass__ = type
 
 DOCUMENTATION = r'''
 ---
-module: veeam_vbr_credentials_info
+module: veeam_vbr_repositories_info
 
 short_description: 
 
@@ -48,62 +48,57 @@ EXAMPLES = r'''
 - name: Test Veeam RestAPI Collection
   hosts: localhost
   tasks:
-  - name: Test veeam_vbr_credentials_info
-    veeamhub.veeam_rest.veeam_vbr_credentials_info:
+  - name: Test veeam_vbr_repositories_info
+    veeamhub.veeam_rest.veeam_vbr_repositories_info:
         server_name: '10.0.2.16'
         server_username: 'Administrator'
-        server_password: '<Password>'
+        server_password: 'Anfang!!'
     register: testout
   - name: Debug Result
     debug:
         var: testout
+        
 '''
 
 RETURN = r'''
 # These are examples of possible return values, and in general should use other names for return values.
-"msg": {
+"infrastructure_repositories": {
         "data": [
             {
-                "SSHPort": 22,
-                "addToSudoers": false,
-                "autoElevated": false,
-                "creationDateTime": "06.10.2020 20:05:57",
-                "description": "Helper appliance credentials",
-                "id": "70275b03-e805-49e1-9535-1867c62371e2",
-                "passphrase": "",
-                "privateKey": "",
-                "tag": "70275B03-E805-49E1-9535-1867C62371E2",
-                "type": "Linux",
-                "useSu": false,
-                "username": "root"
-            },
-            {
-                "creationDateTime": "06.10.2020 18:05:22",
-                "description": "Tenant-side network extension appliance credentials",
-                "id": "b5ebaf50-1a63-4c48-839f-5f8a5452520b",
-                "tag": "B5EBAF50-1A63-4C48-839F-5F8A5452520B",
-                "type": "Standard",
-                "username": "root"
-            },
-            {
-                "creationDateTime": "06.10.2020 18:05:32",
-                "description": "Azure helper appliance credentials",
-                "id": "e379ded2-8dae-4b9a-b77d-7ed99e8c7152",
-                "tag": "E379DED2-8DAE-4B9A-B77D-7ED99E8C7152",
-                "type": "Standard",
-                "username": "root"
-            },
-            {
-                "creationDateTime": "06.10.2020 18:05:22",
-                "description": "Provider-side network extension appliance credentials",
-                "id": "fd0041d1-4a68-4abd-aefe-b2bf02bb7ca9",
-                "tag": "FD0041D1-4A68-4ABD-AEFE-B2BF02BB7CA9",
-                "type": "Standard",
-                "username": "root"
+                "description": "Created by Veeam Backup",
+                "hostId": "6745a759-2205-4cd2-b172-8ec8f7e60ef8",
+                "id": "88788f9e-d8f5-4eb4-bc4f-9b3f5403bcec",
+                "kind": "Das",
+                "mountServer": {
+                    "mountServerId": "6745a759-2205-4cd2-b172-8ec8f7e60ef8",
+                    "vPowerNFSEnabled": true,
+                    "vPowerNFSPortSettings": {
+                        "mountPort": 1058,
+                        "vPowerNFSPort": 1058
+                    },
+                    "writeCacheFolder": ""
+                },
+                "name": "Default Backup Repository",
+                "repository": {
+                    "advancedSettings": {
+                        "alignDataBlocks": true,
+                        "decompressBeforeStoring": false,
+                        "perVmBackup": false,
+                        "rotatedDrives": false
+                    },
+                    "makeRecentBackupsImmutableDays": null,
+                    "maxTaskCount": 4,
+                    "path": "C:\\Backup",
+                    "readWriteRate": 0,
+                    "useFastCloningOnXFSVolumes": false,
+                    "useImmutableBackups": null
+                },
+                "tag": "88788F9ED8F54EB4BC4F9B3F5403BCEC",
+                "type": "WinLocal"
             }
         ],
         "pagination": {
-            "total": 0
+            "total": 1
         }
     }
 '''
@@ -172,7 +167,7 @@ def run_module():
         'x-api-version': '1.0-rev1',
         'Authorization': 'Bearer ' + resp['access_token']
     }
-    request_url = 'https://' + request_server + ':' + request_port + '/api/v1/credentials'
+    request_url = 'https://' + request_server + ':' + request_port + '/api/v1/backupInfrastructure/repositories'
 
     method = "Get"
     req, info = fetch_url(module, request_url, headers=headers, method=method)
@@ -181,7 +176,7 @@ def run_module():
         module.fail_json(msg="Fail: %s" % ("Status: " + str(info['status']) + ", Message: " + str(info['msg'])))
 
     try: 
-        result['credentials'] = json.loads(req.read())
+        result['infrastructure_repositories'] = json.loads(req.read())
     except AttributeError:
         module.fail_json(msg='Parsing Response Failed', **result)
 

@@ -112,7 +112,7 @@ def run_module():
         module.fail_json(msg="Fail: %s" % ("Status: " + str(info['status']) + ", Message: " + str(info['msg'])))
 
     try: 
-        result['msg'] = json.loads(req.read())
+        result['servercertificate'] = json.loads(req.read())
     except AttributeError:
         module.fail_json(msg='Parsing Response Failed', **result)
 

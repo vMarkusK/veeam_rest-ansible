@@ -7,7 +7,7 @@ __metaclass__ = type
 
 DOCUMENTATION = r'''
 ---
-module: veeam_vbr_repositories_info
+module: veeam_vbr_managedservers_info
 
 short_description: 
 
@@ -48,8 +48,8 @@ EXAMPLES = r'''
 - name: Test Veeam RestAPI Collection
   hosts: localhost
   tasks:
-  - name: Test veeam_vbr_repositories_info
-    veeamhub.veeam_rest.veeam_vbr_repositories_info:
+  - name: Test veeam_vbr_managedservers_info
+    veeamhub.veeam_rest.veeam_vbr_managedservers_info:
         server_name: '10.0.2.16'
         server_username: 'Administrator'
         server_password: '<Password>'
@@ -62,39 +62,61 @@ EXAMPLES = r'''
 
 RETURN = r'''
 # These are examples of possible return values, and in general should use other names for return values.
-"infrastructure_repositories": {
+"infrastructure_managedservers": {
         "data": [
             {
-                "description": "Created by Veeam Backup",
-                "hostId": "6745a759-2205-4cd2-b172-8ec8f7e60ef8",
-                "id": "88788f9e-d8f5-4eb4-bc4f-9b3f5403bcec",
-                "kind": "Das",
-                "mountServer": {
-                    "mountServerId": "6745a759-2205-4cd2-b172-8ec8f7e60ef8",
-                    "vPowerNFSEnabled": true,
-                    "vPowerNFSPortSettings": {
-                        "mountPort": 1058,
-                        "vPowerNFSPort": 1058
-                    },
-                    "writeCacheFolder": ""
+                "credentialsId": "00000000-0000-0000-0000-000000000000",
+                "description": "Backup server",
+                "id": "6745a759-2205-4cd2-b172-8ec8f7e60ef8",
+                "name": "WIN-RT26QHK0M11",
+                "networkSettings": {
+                    "components": [
+                        {
+                            "componentName": "DeployerSvc",
+                            "port": 6160
+                        },
+                        {
+                            "componentName": "Transport",
+                            "port": 6162
+                        },
+                        {
+                            "componentName": "Nfs",
+                            "port": 6161
+                        },
+                        {
+                            "componentName": "RestoreProxy",
+                            "port": 6170
+                        },
+                        {
+                            "componentName": "WanAccelerator",
+                            "port": 6164
+                        },
+                        {
+                            "componentName": "Tape",
+                            "port": 6166
+                        },
+                        {
+                            "componentName": "CloudGate",
+                            "port": 6168
+                        },
+                        {
+                            "componentName": "AgentConfigureService",
+                            "port": 9380
+                        },
+                        {
+                            "componentName": "FileSystemVssIntegration",
+                            "port": 6210
+                        },
+                        {
+                            "componentName": "VssHwSnapshotProvider",
+                            "port": 6211
+                        }
+                    ],
+                    "portRangeEnd": 3300,
+                    "portRangeStart": 2500,
+                    "serverThisSide": false
                 },
-                "name": "Default Backup Repository",
-                "repository": {
-                    "advancedSettings": {
-                        "alignDataBlocks": true,
-                        "decompressBeforeStoring": false,
-                        "perVmBackup": false,
-                        "rotatedDrives": false
-                    },
-                    "makeRecentBackupsImmutableDays": null,
-                    "maxTaskCount": 4,
-                    "path": "C:\\Backup",
-                    "readWriteRate": 0,
-                    "useFastCloningOnXFSVolumes": false,
-                    "useImmutableBackups": null
-                },
-                "tag": "88788F9ED8F54EB4BC4F9B3F5403BCEC",
-                "type": "WinLocal"
+                "type": "WindowsHost"
             }
         ],
         "pagination": {
@@ -167,7 +189,7 @@ def run_module():
         'x-api-version': '1.0-rev1',
         'Authorization': 'Bearer ' + resp['access_token']
     }
-    request_url = 'https://' + request_server + ':' + request_port + '/api/v1/backupInfrastructure/repositories'
+    request_url = 'https://' + request_server + ':' + request_port + '/api/v1/backupInfrastructure/managedServers'
 
     method = "Get"
     req, info = fetch_url(module, request_url, headers=headers, method=method)
@@ -176,7 +198,7 @@ def run_module():
         module.fail_json(msg="Fail: %s" % ("Status: " + str(info['status']) + ", Message: " + str(info['msg'])))
 
     try: 
-        result['infrastructure_repositories'] = json.loads(req.read())
+        result['infrastructure_managedservers'] = json.loads(req.read())
     except AttributeError:
         module.fail_json(msg='Parsing Response Failed', **result)
 

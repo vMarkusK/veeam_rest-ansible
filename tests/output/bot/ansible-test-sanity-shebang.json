@@ -1,0 +1,10 @@
+{
+    "docs": "https://docs.ansible.com/ansible/2.10/dev_guide/testing/sanity/shebang.html", 
+    "results": [
+        {
+            "message": "The test `ansible-test sanity --test shebang` [[explain](https://docs.ansible.com/ansible/2.10/dev_guide/testing/sanity/shebang.html)] failed with 5 errors:", 
+            "output": "plugins/modules/veeam_vbr_credentials.py:1:1: expected module shebang \"b'#!/usr/bin/python'\" but found: b'#!/usr/bin/env python'\nplugins/modules/veeam_vbr_credentials_info.py:1:1: expected module shebang \"b'#!/usr/bin/python'\" but found: b'#!/usr/bin/env python'\nplugins/modules/veeam_vbr_managedservers_info.py:1:1: expected module shebang \"b'#!/usr/bin/python'\" but found: b'#!/usr/bin/env python'\nplugins/modules/veeam_vbr_repositories_info.py:1:1: expected module shebang \"b'#!/usr/bin/python'\" but found: b'#!/usr/bin/env python'\nplugins/modules/veeam_vbr_servercertificate_info.py:1:1: expected module shebang \"b'#!/usr/bin/python'\" but found: b'#!/usr/bin/env python'"
+        }
+    ], 
+    "verified": false
+}

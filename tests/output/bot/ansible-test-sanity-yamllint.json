@@ -1,0 +1,10 @@
+{
+    "docs": "https://docs.ansible.com/ansible/2.10/dev_guide/testing/sanity/yamllint.html", 
+    "results": [
+        {
+            "message": "The test `ansible-test sanity --test yamllint` [[explain](https://docs.ansible.com/ansible/2.10/dev_guide/testing/sanity/yamllint.html)] failed with 4 errors:", 
+            "output": ".github/workflows/ansible-lint.yml:56:1: empty-lines: too many blank lines (1 > 0)\ngalaxy.yml:62:1: empty-lines: too many blank lines (1 > 0)\nplugins/modules/veeam_vbr_servercertificate_info.py:65:1: error: RETURN: syntax error: expected ',' or '}', but got '<stream end>' (syntax)\nplugins/modules/veeam_vbr_servercertificate_info.py:65:1: unparsable-with-libyaml: while parsing a flow mapping - did not find expected ',' or '}'"
+        }
+    ], 
+    "verified": false
+}

@@ -84,3 +84,20 @@ Documentation for the collection.
     debug:
         var: testout
 ```
+
+### veeam_vbr_repositories_info
+
+```
+- name: Test Veeam RestAPI Collection
+  hosts: localhost
+  tasks:
+  - name: Test veeam_vbr_repositories_info
+    veeamhub.veeam_rest.veeam_vbr_repositories_info:
+        server_name: '10.0.2.16'
+        server_username: 'Administrator'
+        server_password: 'Anfang!!'
+    register: testout
+  - name: Debug Result
+    debug:
+        var: testout
+```

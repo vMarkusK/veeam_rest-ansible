@@ -45,10 +45,62 @@ author:
 
 EXAMPLES = r'''
 # Pass in a message
+- name: Test Veeam RestAPI Collection
+  hosts: localhost
+  tasks:
+  - name: Test veeam_vbr_repositories_info
+    veeamhub.veeam_rest.veeam_vbr_repositories_info:
+        server_name: '10.0.2.16'
+        server_username: 'Administrator'
+        server_password: 'Anfang!!'
+    register: testout
+  - name: Debug Result
+    debug:
+        var: testout
+        
 '''
 
 RETURN = r'''
 # These are examples of possible return values, and in general should use other names for return values.
+"infrastructure_repositories": {
+        "data": [
+            {
+                "description": "Created by Veeam Backup",
+                "hostId": "6745a759-2205-4cd2-b172-8ec8f7e60ef8",
+                "id": "88788f9e-d8f5-4eb4-bc4f-9b3f5403bcec",
+                "kind": "Das",
+                "mountServer": {
+                    "mountServerId": "6745a759-2205-4cd2-b172-8ec8f7e60ef8",
+                    "vPowerNFSEnabled": true,
+                    "vPowerNFSPortSettings": {
+                        "mountPort": 1058,
+                        "vPowerNFSPort": 1058
+                    },
+                    "writeCacheFolder": ""
+                },
+                "name": "Default Backup Repository",
+                "repository": {
+                    "advancedSettings": {
+                        "alignDataBlocks": true,
+                        "decompressBeforeStoring": false,
+                        "perVmBackup": false,
+                        "rotatedDrives": false
+                    },
+                    "makeRecentBackupsImmutableDays": null,
+                    "maxTaskCount": 4,
+                    "path": "C:\\Backup",
+                    "readWriteRate": 0,
+                    "useFastCloningOnXFSVolumes": false,
+                    "useImmutableBackups": null
+                },
+                "tag": "88788F9ED8F54EB4BC4F9B3F5403BCEC",
+                "type": "WinLocal"
+            }
+        ],
+        "pagination": {
+            "total": 1
+        }
+    }
 '''
 
 import json

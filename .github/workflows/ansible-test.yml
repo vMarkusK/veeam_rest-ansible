@@ -80,7 +80,6 @@ jobs:
           - stable-2.10
           - devel
         python:
-          - 2.6
           - 2.7
           - 3.5
           - 3.6
@@ -109,11 +108,6 @@ jobs:
       # Install them like this
       - name: Install collection dependencies
         run: ansible-galaxy collection install ansible.netcommon -p .
-
-      # Run the integration tests
-      - name: Run integration test
-        run: ansible-test integration -v --color --retry-on-error --continue-on-error --diff --python ${{ matrix.python }} --docker --coverage
-        working-directory: ./ansible_collections/veeamhub/veeam_rest
 
         # ansible-test support producing code coverage date
       - name: Generate coverage report

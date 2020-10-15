@@ -9,11 +9,11 @@ DOCUMENTATION = r'''
 ---
 module: veeam_vbr_managedservers_info
 
-short_description: 
+short_description:
 
 version_added: "1.0.0"
 
-description: 
+description:
 
 options:
     server_name:
@@ -57,7 +57,6 @@ EXAMPLES = r'''
   - name: Debug Result
     debug:
         var: testout
-        
 '''
 
 RETURN = r'''
@@ -123,6 +122,7 @@ import re
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.urls import fetch_url
 
+
 def run_module():
     # define available arguments/parameters a user can pass to the module
     module_args = dict(
@@ -151,7 +151,7 @@ def run_module():
         supports_check_mode=False
     )
 
-    ## Authenticate
+    # Authenticate
     request_server = module.params['server_name']
     request_port = module.params['server_port']
     request_username = module.params['server_username']
@@ -172,12 +172,12 @@ def run_module():
     if info['status'] != 200:
         module.fail_json(msg="Fail: %s" % ("Status: " + str(info['status']) + ", Message: " + str(info['msg'])))
 
-    try: 
+    try:
         resp = json.loads(req.read())
     except AttributeError:
         module.fail_json(msg='Parsing Response Failed', **result)
-    
-    ## Payload
+
+    # Payload
     headers = {
         'x-api-version': '1.0-rev1',
         'Authorization': 'Bearer ' + resp['access_token']
@@ -190,7 +190,7 @@ def run_module():
     if info['status'] != 200:
         module.fail_json(msg="Fail: %s" % ("Status: " + str(info['status']) + ", Message: " + str(info['msg'])))
 
-    try: 
+    try:
         result['infrastructure_managedservers'] = json.loads(req.read())
     except AttributeError:
         module.fail_json(msg='Parsing Response Failed', **result)

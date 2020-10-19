@@ -70,6 +70,7 @@ import re
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.urls import fetch_url
 
+
 def run_module():
     # define available arguments/parameters a user can pass to the module
     module_args = dict(
@@ -117,7 +118,6 @@ def run_module():
     except AttributeError:
         module.fail_json(msg='Parsing Response Failed', **result)
 
-
     module.exit_json(**result)
 
 
@@ -127,4 +127,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    

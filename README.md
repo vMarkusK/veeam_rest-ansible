@@ -45,44 +45,26 @@ Documentation for the collection.
     veeamhub.veeam_rest.veeam_vbr_credentials:
         server_name: '10.0.2.16'
         server_username: 'Administrator'
-        server_password: '<Password>'
+        server_password: 'Anfang!!'
         type: 'Linux'
         username: 'root'
-        password: '<Password>'
+        password: 'C0mPl3x!'
         description: 'Created by Ansible RestAPI Module'
-    register: testout
+    register: create_cred
   - name: Debug Result
     debug:
-        var: testout
-  - name: Test veeam_vbr_credentials_info
-    veeamhub.veeam_rest.veeam_vbr_credentials_info:
-        server_name: '10.0.2.16'
-        server_username: 'Administrator'
-        server_password: '<Password>'
-    register: testout
-  - name: Debug Result
-    debug:
-        var: testout
+        var: create_cred
   - name: Test veeam_vbr_credentials Delete
     veeamhub.veeam_rest.veeam_vbr_credentials:
         server_name: '10.0.2.16'
         server_username: 'Administrator'
-        server_password: '<Password>'
-        id: '0b3f7851-a809-4731-989f-9f08820f4be6'
+        server_password: 'Anfang!!'
+        id: "{{ create_cred.msg.id }}"
         state: absent
-    register: testout
+    register: delete_cred
   - name: Debug Result
     debug:
-        var: testout
-  - name: Test veeam_vbr_credentials_info
-    veeamhub.veeam_rest.veeam_vbr_credentials_info:
-        server_name: '10.0.2.16'
-        server_username: 'Administrator'
-        server_password: '<Password>'
-    register: testout
-  - name: Debug Result
-    debug:
-        var: testout
+        var: delete_cred
 ```
 
 ### veeam_vbr_repositories_info

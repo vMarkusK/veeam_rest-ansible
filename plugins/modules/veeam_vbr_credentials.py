@@ -175,7 +175,7 @@ def run_module():
     if info['status'] != 200:
         module.fail_json(msg="Fail: %s" % ("Status: " + str(info['status']) + ", Message: " + str(info['msg'])))
 
-    try: 
+    try:
         resp = json.loads(req.read())
     except AttributeError:
         module.fail_json(msg='Parsing Response Failed', **result)
@@ -189,9 +189,9 @@ def run_module():
         tag = module.params['tag']
 
         body = {
-            'type': credtype, 
-            'username': username, 
-            'password': password, 
+            'type': credtype,
+            'username': username,
+            'password': password,
             'description': description
         }
         bodyjson = json.dumps(body)
@@ -208,7 +208,7 @@ def run_module():
         if info['status'] != 200:
             module.fail_json(msg="Fail: %s" % ("Status: " + str(info['status']) + ", Message: " + str(info['msg'])))
 
-        try: 
+        try:
             result['msg'] = json.loads(req.read())
             result['changed'] = True
         except AttributeError:
@@ -233,7 +233,7 @@ def run_module():
             if info['status'] != 200:
                 module.fail_json(msg="Fail: %s" % ("Status: " + str(info['status']) + ", Message: " + str(info['msg'])))
 
-            try: 
+            try:
                 #result['msg'] = json.loads(req.read())
                 result['changed'] = True
             except AttributeError:
@@ -247,3 +247,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    

@@ -131,11 +131,11 @@ def run_module():
     if info['status'] != 200:
         module.fail_json(msg="Fail: %s" % ("Status: " + str(info['status']) + ", Message: " + str(info['msg'])))
 
-    try: 
+    try:
         resp = json.loads(req.read())
     except AttributeError:
         module.fail_json(msg='Parsing Response Failed', **result)
-    
+
     ## Payload
     headers = {
         'x-api-version': '1.0-rev1',
@@ -149,7 +149,7 @@ def run_module():
     if info['status'] != 200:
         module.fail_json(msg="Fail: %s" % ("Status: " + str(info['status']) + ", Message: " + str(info['msg'])))
 
-    try: 
+    try:
         result['credentials'] = json.loads(req.read())
     except AttributeError:
         module.fail_json(msg='Parsing Response Failed', **result)
@@ -163,3 +163,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    

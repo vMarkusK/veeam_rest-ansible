@@ -1,6 +1,11 @@
 # Ansible Collection - veeamhub.veeam_rest
 
-Documentation for the collection.
+<p align="left">
+  <a href="https://github.com/actions/toolkit/actions?query=workflow%3ABasicLint"><img alt="Ansible-Test BasicLint" src="https://github.com/actions/toolkit/workflows/BasicLint/badge.svg"></a>
+</p>
+
+
+Documentation for the veeam_rest collection.
 
 ## Modules
 

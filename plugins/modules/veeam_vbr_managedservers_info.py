@@ -65,64 +65,6 @@ EXAMPLES = r'''
         var: testout
 '''
 
-RETURN = r'''
-# These are examples of possible return values, and in general should use other names for return values.
-{
-    "credentialsId": "00000000-0000-0000-0000-000000000000",
-    "description": "Backup server",
-    "id": "6745a759-2205-4cd2-b172-8ec8f7e60ef8",
-    "name": "WIN-RT26QHK0M11",
-    "networkSettings": {
-        "components": [
-            {
-                "componentName": "DeployerSvc",
-                "port": 6160
-            },
-            {
-                "componentName": "Transport",
-                "port": 6162
-            },
-            {
-                "componentName": "Nfs",
-                "port": 6161
-            },
-            {
-                "componentName": "RestoreProxy",
-                "port": 6170
-            },
-            {
-                "componentName": "WanAccelerator",
-                "port": 6164
-            },
-            {
-                "componentName": "Tape",
-                "port": 6166
-            },
-            {
-                "componentName": "CloudGate",
-                "port": 6168
-            },
-            {
-                "componentName": "AgentConfigureService",
-                "port": 9380
-            },
-            {
-                "componentName": "FileSystemVssIntegration",
-                "port": 6210
-            },
-            {
-                "componentName": "VssHwSnapshotProvider",
-                "port": 6211
-            }
-        ],
-        "portRangeEnd": 3300,
-        "portRangeStart": 2500,
-        "serverThisSide": false
-    },
-    "type": "WindowsHost"
-}
-'''
-
 import json
 import re
 from ansible.module_utils.basic import AnsibleModule

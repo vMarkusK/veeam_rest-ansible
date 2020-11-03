@@ -55,22 +55,6 @@ EXAMPLES = r'''
         var: testout
 '''
 
-RETURN = r'''
-# These are examples of possible return values, and in general should use other names for return values.
-{
-    "automaticallyGenerated": false,
-    "issuedBy": "Veeam Backup Server Certificate",
-    "issuedTo": "Veeam Backup Server Certificate",
-    "keyAlgorithm": "RSA-PKCS1-KeyEx",
-    "keySize": "2048",
-    "serialNumber": "1A17F5B55B2A169747FC7405CBEFFCE7",
-    "subject": "CN=Veeam Backup Server Certificate",
-    "thumbprint": "E2FFF23FD0A7A47A4D3C4689AD9371F874CC124E",
-    "validBy": "2030-10-05T20:10:13+02:00",
-    "validFrom": "2020-10-05T20:10:13+02:00"
-}
-'''
-
 import json
 import re
 from ansible.module_utils.basic import AnsibleModule

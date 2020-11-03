@@ -110,24 +110,6 @@ EXAMPLES = r'''
         var: delete_cred
 '''
 
-RETURN = r'''
-# These are examples of possible return values, and in general should use other names for return values.
-"msg": {
-        "SSHPort": 22,
-        "addToSudoers": false,
-        "autoElevated": false,
-        "creationDateTime": "07.10.2020 00:08:45",
-        "description": "Created by Ansible RestAPI Module",
-        "id": "317da5a8-3d12-428b-b1d7-95e9e780bb14",
-        "passphrase": "",
-        "privateKey": "",
-        "tag": "6b8ced39-4e37-4b95-8e8c-8179a3dcfab5",
-        "type": "Linux",
-        "useSu": false,
-        "username": "root"
-    }
-'''
-
 import json
 import re
 from ansible.module_utils.basic import AnsibleModule

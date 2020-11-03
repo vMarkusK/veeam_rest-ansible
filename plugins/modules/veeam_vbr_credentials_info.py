@@ -65,24 +65,6 @@ EXAMPLES = r'''
         var: testout
 '''
 
-RETURN = r'''
-# These are examples of possible return values, and in general should use other names for return values.
-{
-    "SSHPort": 22,
-    "addToSudoers": false,
-    "autoElevated": false,
-    "creationDateTime": "06.10.2020 20:05:57",
-    "description": "Helper appliance credentials",
-    "id": "70275b03-e805-49e1-9535-1867c62371e2",
-    "passphrase": "",
-    "privateKey": "",
-    "tag": "70275B03-E805-49E1-9535-1867C62371E2",
-    "type": "Linux",
-    "useSu": false,
-    "username": "root"
-}
-'''
-
 import json
 import re
 from ansible.module_utils.basic import AnsibleModule

@@ -27,7 +27,7 @@ jobs:
         ansible:
           # It's important that Sanity is tested against all stable-X.Y branches
           # Testing against `devel` may fail as new tests are added.
-        # - stable-2.9 # Only if your collection supports Ansible 2.9
+          # - stable-2.9 # Only if your collection supports Ansible 2.9
           - stable-2.10
           - devel
     runs-on: ubuntu-latest
@@ -56,5 +56,5 @@ jobs:
       # The docker container has all the pinned dependencies that are required
       # and all python versions ansible supports.
       - name: Run sanity tests
-        run: ansible-test sanity --docker -v --color --skip-test ansible-doc --skip-test validate-modules
+        run: ansible-test sanity --docker -v --color
         working-directory: ./ansible_collections/veeamhub/veeam_rest

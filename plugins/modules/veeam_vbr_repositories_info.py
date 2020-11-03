@@ -9,13 +9,24 @@ DOCUMENTATION = r'''
 ---
 module: veeam_vbr_repositories_info
 
-short_description:
+short_description: Get Veeam Backup & Replication Repositories.
 
 version_added: "1.0.0"
 
-description:
+description: Get Veeam Backup & Replication Repositories.
 
 options:
+    validate_certs:
+        description:
+        - Validate SSL certs.  Note, if running on python without SSLContext
+            support (typically, python < 2.7.9) you will have to set this to C(no)
+            as pysphere does not support validating certificates on older python.
+            Prior to 2.1, this module would always validate on python >= 2.7.9 and
+            never validate on python <= 2.7.8.
+        required: false
+        default: no
+        type: bool
+        choices: ['yes', 'no']
     server_name:
         description: VBR Server Name or IP
         required: true
@@ -33,11 +44,6 @@ options:
         description: VBR Server password
         required: true
         type: str
-    validate_certs:
-        description: SSL Certificate Validation
-        required: false
-        default: false
-        type: bool
 
 author:
     - Markus Kraus (@vMarkusK)
@@ -59,49 +65,6 @@ EXAMPLES = r'''
         var: testout
 '''
 
-RETURN = r'''
-# These are examples of possible return values, and in general should use other names for return values.
-"infrastructure_repositories": {
-        "data": [
-            {
-                "description": "Created by Veeam Backup",
-                "hostId": "6745a759-2205-4cd2-b172-8ec8f7e60ef8",
-                "id": "88788f9e-d8f5-4eb4-bc4f-9b3f5403bcec",
-                "kind": "Das",
-                "mountServer": {
-                    "mountServerId": "6745a759-2205-4cd2-b172-8ec8f7e60ef8",
-                    "vPowerNFSEnabled": true,
-                    "vPowerNFSPortSettings": {
-                        "mountPort": 1058,
-                        "vPowerNFSPort": 1058
-                    },
-                    "writeCacheFolder": ""
-                },
-                "name": "Default Backup Repository",
-                "repository": {
-                    "advancedSettings": {
-                        "alignDataBlocks": true,
-                        "decompressBeforeStoring": false,
-                        "perVmBackup": false,
-                        "rotatedDrives": false
-                    },
-                    "makeRecentBackupsImmutableDays": null,
-                    "maxTaskCount": 4,
-                    "path": "C:\\Backup",
-                    "readWriteRate": 0,
-                    "useFastCloningOnXFSVolumes": false,
-                    "useImmutableBackups": null
-                },
-                "tag": "88788F9ED8F54EB4BC4F9B3F5403BCEC",
-                "type": "WinLocal"
-            }
-        ],
-        "pagination": {
-            "total": 1
-        }
-    }
-'''
-
 import json
 import re
 from ansible.module_utils.basic import AnsibleModule
@@ -115,7 +78,7 @@ def run_module():
         server_username=dict(type='str', required=True),
         server_password=dict(type='str', required=True, no_log=True),
         server_port=dict(type='str', default='9419'),
-        validate_certs=dict(type='bool', default='no'),
+        validate_certs=dict(type='bool', choices=("yes", "no"), default='no')
     )
 
     # seed the result dict in the object

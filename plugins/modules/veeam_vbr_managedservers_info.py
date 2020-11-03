@@ -9,13 +9,24 @@ DOCUMENTATION = r'''
 ---
 module: veeam_vbr_managedservers_info
 
-short_description:
+short_description: Get Veeam Backup & Replication Managed Servers.
 
 version_added: "1.0.0"
 
-description:
+description: Get Veeam Backup & Replication Managed Servers.
 
 options:
+    validate_certs:
+        description:
+        - Validate SSL certs.  Note, if running on python without SSLContext
+            support (typically, python < 2.7.9) you will have to set this to C(no)
+            as pysphere does not support validating certificates on older python.
+            Prior to 2.1, this module would always validate on python >= 2.7.9 and
+            never validate on python <= 2.7.8.
+        required: false
+        default: no
+        type: bool
+        choices: ['yes', 'no']
     server_name:
         description: VBR Server Name or IP
         required: true
@@ -33,11 +44,6 @@ options:
         description: VBR Server password
         required: true
         type: str
-    validate_certs:
-        description: SSL Certificate Validation
-        required: false
-        default: false
-        type: bool
 
 author:
     - Markus Kraus (@vMarkusK)
@@ -59,64 +65,6 @@ EXAMPLES = r'''
         var: testout
 '''
 
-RETURN = r'''
-# These are examples of possible return values, and in general should use other names for return values.
-{
-    "credentialsId": "00000000-0000-0000-0000-000000000000",
-    "description": "Backup server",
-    "id": "6745a759-2205-4cd2-b172-8ec8f7e60ef8",
-    "name": "WIN-RT26QHK0M11",
-    "networkSettings": {
-        "components": [
-            {
-                "componentName": "DeployerSvc",
-                "port": 6160
-            },
-            {
-                "componentName": "Transport",
-                "port": 6162
-            },
-            {
-                "componentName": "Nfs",
-                "port": 6161
-            },
-            {
-                "componentName": "RestoreProxy",
-                "port": 6170
-            },
-            {
-                "componentName": "WanAccelerator",
-                "port": 6164
-            },
-            {
-                "componentName": "Tape",
-                "port": 6166
-            },
-            {
-                "componentName": "CloudGate",
-                "port": 6168
-            },
-            {
-                "componentName": "AgentConfigureService",
-                "port": 9380
-            },
-            {
-                "componentName": "FileSystemVssIntegration",
-                "port": 6210
-            },
-            {
-                "componentName": "VssHwSnapshotProvider",
-                "port": 6211
-            }
-        ],
-        "portRangeEnd": 3300,
-        "portRangeStart": 2500,
-        "serverThisSide": false
-    },
-    "type": "WindowsHost"
-}
-'''
-
 import json
 import re
 from ansible.module_utils.basic import AnsibleModule
@@ -130,7 +78,7 @@ def run_module():
         server_username=dict(type='str', required=True),
         server_password=dict(type='str', required=True, no_log=True),
         server_port=dict(type='str', default='9419'),
-        validate_certs=dict(type='bool', default='no'),
+        validate_certs=dict(type='bool', choices=("yes", "no"), default='no')
     )
 
     # seed the result dict in the object

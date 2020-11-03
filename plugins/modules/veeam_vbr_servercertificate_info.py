@@ -16,6 +16,17 @@ version_added: "1.0.0"
 description: Get Current Veeam Backup Server Certificate from RestAPI.
 
 options:
+    validate_certs:
+        description:
+        - Validate SSL certs.  Note, if running on python without SSLContext
+            support (typically, python < 2.7.9) you will have to set this to C(no)
+            as pysphere does not support validating certificates on older python.
+            Prior to 2.1, this module would always validate on python >= 2.7.9 and
+            never validate on python <= 2.7.8.
+        required: false
+        default: no
+        type: bool
+        choices: ['yes', 'no']
     server_name:
         description: VBR Server Name or IP
         required: true
@@ -25,11 +36,6 @@ options:
         required: false
         default: 9419
         type: str
-    validate_certs:
-        description: SSL Certificate Validation
-        required: false
-        default: false
-        type: bool
 
 author:
     - Markus Kraus (@vMarkusK)
@@ -49,22 +55,6 @@ EXAMPLES = r'''
         var: testout
 '''
 
-RETURN = r'''
-# These are examples of possible return values, and in general should use other names for return values.
-{
-    "automaticallyGenerated": false,
-    "issuedBy": "Veeam Backup Server Certificate",
-    "issuedTo": "Veeam Backup Server Certificate",
-    "keyAlgorithm": "RSA-PKCS1-KeyEx",
-    "keySize": "2048",
-    "serialNumber": "1A17F5B55B2A169747FC7405CBEFFCE7",
-    "subject": "CN=Veeam Backup Server Certificate",
-    "thumbprint": "E2FFF23FD0A7A47A4D3C4689AD9371F874CC124E",
-    "validBy": "2030-10-05T20:10:13+02:00",
-    "validFrom": "2020-10-05T20:10:13+02:00"
-}
-'''
-
 import json
 import re
 from ansible.module_utils.basic import AnsibleModule
@@ -76,7 +66,7 @@ def run_module():
     module_args = dict(
         server_name=dict(type='str', required=True),
         server_port=dict(type='str', default='9419'),
-        validate_certs=dict(type='bool', default='no')
+        validate_certs=dict(type='bool', choices=("yes", "no"), default='no')
     )
 
     # seed the result dict in the object

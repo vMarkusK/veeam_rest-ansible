@@ -9,13 +9,30 @@ DOCUMENTATION = r'''
 ---
 module: veeam_vbr_credentials
 
-short_description:
+short_description: Add and Remove Veeam Backup & Replication Credentials.
 
 version_added: "1.0.0"
 
-description:
+description: Add and Remove Veeam Backup & Replication Credentials.
 
 options:
+    validate_certs:
+        description:
+        - Validate SSL certs.  Note, if running on python without SSLContext
+            support (typically, python < 2.7.9) you will have to set this to C(no)
+            as pysphere does not support validating certificates on older python.
+            Prior to 2.1, this module would always validate on python >= 2.7.9 and
+            never validate on python <= 2.7.8.
+        required: false
+        default: no
+        type: bool
+        choices: ['yes', 'no']
+    state:
+        description:
+        - Indicate desired state.
+        default: present
+        type: str
+        choices: ['present', 'absent']
     server_name:
         description: VBR Server Name or IP
         required: true
@@ -33,16 +50,27 @@ options:
         description: VBR Server password
         required: true
         type: str
-    validate_certs:
-        description: SSL Certificate Validation
+    id:
+        description: VBR Server credential ID
         required: false
-        default: false
-        type: bool
+        type: str
+    username:
+        description: VBR Server credential username
+        required: false
+        type: str
+    password:
+        description: VBR Server credential password
+        required: false
+        type: str
+    description:
+        description: VBR Server credential description
+        required: false
+        type: str
     type:
         description:
-        - Set to C(Windows) to create new windows credentials.
-        - Set to C(Linux) to create new liniux credentials.
-        - Set to C(Standard) to create new standard credentials.
+        - Set to C(windows) to create new windows credentials.
+        - Set to C(linux) to create new liniux credentials.
+        - Set to C(wtandard) to create new standard credentials.
         type: str
         choices: [ windows, linux, standard ]
         default: standard
@@ -117,10 +145,9 @@ def run_module():
         id=dict(type='str', required=False),
         username=dict(type='str', required=False),
         password=dict(type='str', required=False, no_log=True),
-        type=dict(type='str', choices=("Windows", "Linux", "Standard"), default='Standard'),
+        type=dict(type='str', choices=("windows", "linux", "standard"), default='standard'),
         description=dict(type='str', required=False),
-        tag=dict(type='str', required=False),
-        validate_certs=dict(type='bool', default='no')
+        validate_certs=dict(type='bool', choices=("yes", "no"), default='no')
     )
 
     required_if_args = [
@@ -187,7 +214,6 @@ def run_module():
         password = module.params['password']
         credtype = module.params['type']
         description = module.params['description']
-        tag = module.params['tag']
 
         body = {
             'type': credtype,

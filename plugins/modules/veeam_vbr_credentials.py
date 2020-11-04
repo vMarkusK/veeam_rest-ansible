@@ -17,16 +17,10 @@ description: Add and Remove Veeam Backup & Replication Credentials.
 
 options:
     validate_certs:
-        description:
-        - Validate SSL certs.  Note, if running on python without SSLContext
-            support (typically, python < 2.7.9) you will have to set this to C(no)
-            as pysphere does not support validating certificates on older python.
-            Prior to 2.1, this module would always validate on python >= 2.7.9 and
-            never validate on python <= 2.7.8.
+        description: Validate SSL certs.
         required: false
-        default: no
+        default: false
         type: bool
-        choices: ['yes', 'no']
     state:
         description:
         - Indicate desired state.
@@ -70,7 +64,7 @@ options:
         description:
         - Set to C(windows) to create new windows credentials.
         - Set to C(linux) to create new liniux credentials.
-        - Set to C(wtandard) to create new standard credentials.
+        - Set to C(standard) to create new standard credentials.
         type: str
         choices: [ windows, linux, standard ]
         default: standard
@@ -129,7 +123,7 @@ def run_module():
         password=dict(type='str', required=False, no_log=True),
         type=dict(type='str', choices=("windows", "linux", "standard"), default='standard'),
         description=dict(type='str', required=False),
-        validate_certs=dict(type='bool', choices=("yes", "no"), default='no')
+        validate_certs=dict(type='bool', default='false')
     )
 
     required_if_args = [

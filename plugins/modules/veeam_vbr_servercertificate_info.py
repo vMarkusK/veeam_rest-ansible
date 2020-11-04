@@ -17,16 +17,10 @@ description: Get Current Veeam Backup Server Certificate from RestAPI.
 
 options:
     validate_certs:
-        description:
-        - Validate SSL certs.  Note, if running on python without SSLContext
-            support (typically, python < 2.7.9) you will have to set this to C(no)
-            as pysphere does not support validating certificates on older python.
-            Prior to 2.1, this module would always validate on python >= 2.7.9 and
-            never validate on python <= 2.7.8.
+        description: Validate SSL certs
         required: false
-        default: no
+        default: false
         type: bool
-        choices: ['yes', 'no']
     server_name:
         description: VBR Server Name or IP
         required: true
@@ -66,7 +60,7 @@ def run_module():
     module_args = dict(
         server_name=dict(type='str', required=True),
         server_port=dict(type='str', default='9419'),
-        validate_certs=dict(type='bool', choices=("yes", "no"), default='no')
+        validate_certs=dict(type='bool', default='False')
     )
 
     # seed the result dict in the object

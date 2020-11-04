@@ -5,11 +5,13 @@
 </p>
 
 
-Documentation for the veeam_rest collection.
+Documentation for the veeam_rest Ansible Collection.
 
 ## Modules
 
 ### veeam_vbr_servercertificate_info
+
+Get Current Veeam Backup Server Certificate from RestAPI.
 
 ```
 - name: Test Veeam RestAPI Collection
@@ -24,6 +26,8 @@ Documentation for the veeam_rest collection.
         var: testout
 ```
 ### veeam_vbr_credentials_info
+
+Get Veeam Backup & Replication Credentials.
 
 ```
 - name: Test Veeam RestAPI Collection
@@ -42,6 +46,8 @@ Documentation for the veeam_rest collection.
 
 ### veeam_vbr_credentials
 
+Add and Remove Veeam Backup & Replication Credentials.
+
 ```
 - name: Test Veeam RestAPI Collection
   hosts: localhost
@@ -51,9 +57,9 @@ Documentation for the veeam_rest collection.
         server_name: '10.0.2.16'
         server_username: 'Administrator'
         server_password: 'Anfang!!'
-        type: 'Linux'
+        type: 'linux'
         username: 'root'
-        password: 'C0mPl3x!'
+        password: '<Password>'
         description: 'Created by Ansible RestAPI Module'
     register: create_cred
   - name: Debug Result
@@ -74,6 +80,8 @@ Documentation for the veeam_rest collection.
 
 ### veeam_vbr_repositories_info
 
+Get Veeam Backup & Replication Repositories.
+
 ```
 - name: Test Veeam RestAPI Collection
   hosts: localhost
@@ -90,6 +98,8 @@ Documentation for the veeam_rest collection.
 ```
 
 ### veeam_vbr_managedservers_info
+
+Get Veeam Backup & Replication Managed Servers.
 
 ```
 - name: Test Veeam RestAPI Collection

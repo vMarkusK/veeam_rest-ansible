@@ -89,9 +89,9 @@ EXAMPLES = r'''
         server_name: '10.0.2.16'
         server_username: 'Administrator'
         server_password: 'Anfang!!'
-        type: 'Linux'
+        type: 'linux'
         username: 'root'
-        password: 'C0mPl3x!'
+        password: '<Password>'
         description: 'Created by Ansible RestAPI Module'
     register: create_cred
   - name: Debug Result

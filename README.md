@@ -57,7 +57,7 @@ Add and Remove Veeam Backup & Replication Credentials.
         server_name: '10.0.2.16'
         server_username: 'Administrator'
         server_password: 'Anfang!!'
-        type: 'linux'
+        type: 'Linux'
         username: 'root'
         password: '<Password>'
         description: 'Created by Ansible RestAPI Module'

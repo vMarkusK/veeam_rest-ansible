@@ -62,12 +62,12 @@ options:
         type: str
     type:
         description:
-        - Set to C(windows) to create new windows credentials.
-        - Set to C(linux) to create new liniux credentials.
-        - Set to C(standard) to create new standard credentials.
+        - Set to C(Windows) to create new windows credentials.
+        - Set to C(Linux) to create new liniux credentials.
+        - Set to C(Standard) to create new standard credentials.
         type: str
-        choices: [ windows, linux, standard ]
-        default: standard
+        choices: [ Windows, Linux, Standard ]
+        default: Standard
 
 author:
     - Markus Kraus (@vMarkusK)
@@ -121,7 +121,7 @@ def run_module():
         id=dict(type='str', required=False),
         username=dict(type='str', required=False),
         password=dict(type='str', required=False, no_log=True),
-        type=dict(type='str', choices=("windows", "linux", "standard"), default='standard'),
+        type=dict(type='str', choices=("Windows", "Linux", "Standard"), default='Standard'),
         description=dict(type='str', required=False),
         validate_certs=dict(type='bool', default='false')
     )

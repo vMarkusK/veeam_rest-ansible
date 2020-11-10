@@ -156,6 +156,7 @@ def run_module():
     )
 
     # General
+    apiversion = '1.0-rev1'
     state = module.params['state']
     request_server = module.params['server_name']
     request_port = module.params['server_port']
@@ -166,7 +167,7 @@ def run_module():
     payload = 'grant_type=password&username=' + request_username + '&password=' + request_password
     headers = {
         'accept': 'application/json',
-        'x-api-version': '1.0-rev1',
+        'x-api-version': apiversion,
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': 'true'
     }
@@ -199,7 +200,7 @@ def run_module():
         }
         bodyjson = json.dumps(body)
         headers = {
-            'x-api-version': '1.0-rev1',
+            'x-api-version': apiversion,
             'Authorization': 'Bearer ' + resp['access_token'],
             'Content-Type': 'application/json'
         }

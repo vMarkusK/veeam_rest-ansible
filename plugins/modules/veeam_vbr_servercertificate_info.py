@@ -81,11 +81,15 @@ def run_module():
         supports_check_mode=False
     )
 
+    # General
+    apiversion = '1.0-rev1'
+
+    # Payload
     request_server = module.params['server_name']
     request_port = module.params['server_port']
     headers = {
         'accept': 'application/json',
-        'x-api-version': '1.0-rev1',
+        'x-api-version': apiversion,
         'Authorization': 'true'
     }
 

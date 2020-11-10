@@ -93,6 +93,9 @@ def run_module():
         supports_check_mode=False
     )
 
+    # General
+    apiversion = '1.0-rev1'
+
     # Authenticate
     request_server = module.params['server_name']
     request_port = module.params['server_port']
@@ -101,7 +104,7 @@ def run_module():
     payload = 'grant_type=password&username=' + request_username + '&password=' + request_password
     headers = {
         'accept': 'application/json',
-        'x-api-version': '1.0-rev1',
+        'x-api-version': apiversion,
         'Content-Type': 'application/x-www-form-urlencoded',
         'Authorization': 'true'
     }
@@ -121,7 +124,7 @@ def run_module():
 
     # Payload
     headers = {
-        'x-api-version': '1.0-rev1',
+        'x-api-version': apiversion,
         'Authorization': 'Bearer ' + resp['access_token']
     }
     request_url = 'https://' + request_server + ':' + request_port + '/api/v1/credentials'

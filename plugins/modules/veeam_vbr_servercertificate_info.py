@@ -50,7 +50,7 @@ EXAMPLES = r'''
 '''
 
 import json
-import re
+#import re
 from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.urls import fetch_url
 

@@ -175,13 +175,13 @@ def run_module():
     request_url = 'https://' + request_server + ':' + request_port + '/api/oauth2/token'
 
     method = "Post"
-    req, info = fetch_url(module, request_url, headers=headers, method=method, data=payload)
+    login, info = fetch_url(module, request_url, headers=headers, method=method, data=payload)
 
     if info['status'] != 200:
         module.fail_json(msg="Fail: %s" % ("Status: " + str(info['status']) + ", Message: " + str(info['msg'])))
 
     try:
-        resp = json.loads(req.read())
+        login_resp = json.loads(login.read())
     except AttributeError:
         module.fail_json(msg='Parsing Response Failed', **result)
 
@@ -201,7 +201,7 @@ def run_module():
         bodyjson = json.dumps(body)
         headers = {
             'x-api-version': apiversion,
-            'Authorization': 'Bearer ' + resp['access_token'],
+            'Authorization': 'Bearer ' + login_resp['access_token'],
             'Content-Type': 'application/json'
         }
         request_url = 'https://' + request_server + ':' + request_port + '/api/v1/credentials'
@@ -209,9 +209,23 @@ def run_module():
         method = "Post"
         req, info = fetch_url(module, request_url, headers=headers, method=method, data=bodyjson)
 
+        if info['status'] != 201:
+            module.fail_json(msg="Fail: %s" % ("Status: " + str(info['status']) + ", Message: " + str(info['msg'])))
+        
+        # Logout
+        headers = {
+            'x-api-version': apiversion,
+            'Authorization': 'Bearer ' + login_resp['access_token']
+        }
+        request_url = 'https://' + request_server + ':' + request_port + '/api/oauth2/logout'
+
+        method = "Post"
+        logout, info = fetch_url(module, request_url, headers=headers, method=method)
+
         if info['status'] != 200:
             module.fail_json(msg="Fail: %s" % ("Status: " + str(info['status']) + ", Message: " + str(info['msg'])))
 
+        # Results
         try:
             result['msg'] = json.loads(req.read())
             result['changed'] = True
@@ -223,7 +237,7 @@ def run_module():
 
         headers = {
             'x-api-version': '1.0-rev1',
-            'Authorization': 'Bearer ' + resp['access_token']
+            'Authorization': 'Bearer ' + login_resp['access_token']
         }
         request_url = 'https://' + request_server + ':' + request_port + '/api/v1/credentials/' + credid
 
@@ -234,9 +248,23 @@ def run_module():
             method = "Delete"
             req, info = fetch_url(module, request_url, headers=headers, method=method)
 
+            if info['status'] != 204:
+                module.fail_json(msg="Fail: %s" % ("Status: " + str(info['status']) + ", Message: " + str(info['msg'])))
+            
+            # Logout
+            headers = {
+                'x-api-version': apiversion,
+                'Authorization': 'Bearer ' + login_resp['access_token']
+            }
+            request_url = 'https://' + request_server + ':' + request_port + '/api/oauth2/logout'
+
+            method = "Post"
+            logout, info = fetch_url(module, request_url, headers=headers, method=method)
+
             if info['status'] != 200:
                 module.fail_json(msg="Fail: %s" % ("Status: " + str(info['status']) + ", Message: " + str(info['msg'])))
 
+            # Results
             try:
                 result['changed'] = True
             except AttributeError:

@@ -89,8 +89,7 @@ def run_module():
     request_port = module.params['server_port']
     headers = {
         'accept': 'application/json',
-        'x-api-version': apiversion,
-        'Authorization': 'true'
+        'x-api-version': apiversion
     }
 
     request_url = 'https://' + request_server + ':' + request_port + '/api/v1/serverCertificate'

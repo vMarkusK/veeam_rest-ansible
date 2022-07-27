@@ -16,6 +16,7 @@ Get Current Veeam Backup Server Certificate from RestAPI.
 ```
 - name: Test Veeam RestAPI Collection
   hosts: localhost
+  gather_facts: false
   tasks:
   - name: Test veeam_vbr_servercertificate_info
     veeamhub.veeam_rest.veeam_vbr_servercertificate_info:
@@ -32,6 +33,7 @@ Get Veeam Backup & Replication Credentials.
 ```
 - name: Test Veeam RestAPI Collection
   hosts: localhost
+  gather_facts: false
   tasks:
   - name: Test veeam_vbr_credentials_info
     veeamhub.veeam_rest.veeam_vbr_credentials_info:
@@ -51,12 +53,13 @@ Add and Remove Veeam Backup & Replication Credentials.
 ```
 - name: Test Veeam RestAPI Collection
   hosts: localhost
+  gather_facts: false
   tasks:
   - name: Test veeam_vbr_credentials Create
     veeamhub.veeam_rest.veeam_vbr_credentials:
         server_name: '10.0.2.16'
         server_username: 'Administrator'
-        server_password: 'Anfang!!'
+        server_password: '<Password>'
         type: 'Linux'
         username: 'root'
         password: '<Password>'
@@ -69,7 +72,7 @@ Add and Remove Veeam Backup & Replication Credentials.
     veeamhub.veeam_rest.veeam_vbr_credentials:
         server_name: '10.0.2.16'
         server_username: 'Administrator'
-        server_password: 'Anfang!!'
+        server_password: '<Password>'
         id: "{{ create_cred.msg.id }}"
         state: absent
     register: delete_cred
@@ -85,6 +88,7 @@ Get Veeam Backup & Replication Repositories.
 ```
 - name: Test Veeam RestAPI Collection
   hosts: localhost
+  gather_facts: false
   tasks:
   - name: Test veeam_vbr_repositories_info
     veeamhub.veeam_rest.veeam_vbr_repositories_info:
@@ -104,6 +108,7 @@ Get Veeam Backup & Replication Managed Servers.
 ```
 - name: Test Veeam RestAPI Collection
   hosts: localhost
+  gather_facts: false
   tasks:
   - name: Test veeam_vbr_managedservers_info
     veeamhub.veeam_rest.veeam_vbr_managedservers_info:

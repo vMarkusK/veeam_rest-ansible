@@ -29,7 +29,6 @@ jobs:
           # Testing against `devel` may fail as new tests are added.
           # - stable-2.9 # Only if your collection supports Ansible 2.9
           - stable-2.10
-          - devel
     runs-on: ubuntu-latest
     steps:
 

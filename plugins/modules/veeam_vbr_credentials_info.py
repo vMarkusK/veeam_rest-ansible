@@ -94,7 +94,7 @@ def run_module():
     )
 
     # General
-    apiversion = '1.0-rev1'
+    apiversion = '1.0-rev2'
 
     # Authenticate
     request_server = module.params['server_name']
@@ -105,8 +105,7 @@ def run_module():
     headers = {
         'accept': 'application/json',
         'x-api-version': apiversion,
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'true'
+        'Content-Type': 'application/x-www-form-urlencoded'
     }
 
     request_url = 'https://' + request_server + ':' + request_port + '/api/oauth2/token'

@@ -13,4 +13,4 @@ jobs:
       with:
         python-version: 3.x
     - run: pip install pylint
-    - run: pylint --disable=reportMissingImports $(git ls-files '*.py')
+    - run: pylint --disable=import-error $(git ls-files '*.py')

@@ -19,5 +19,5 @@ jobs:
         pip install pylint
     - name: Analysing the code with pylint
       run: |
-        find . -name '*.py' -exec pylint --msg-template=./plugins/modules/.pylintrc {} \;
+        find . -name '*.py' -exec pylint {} \;
 

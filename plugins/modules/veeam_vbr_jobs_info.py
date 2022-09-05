@@ -9,57 +9,13 @@ from ansible.module_utils.basic import AnsibleModule
 from ansible.module_utils.urls import fetch_url
 
 DOCUMENTATION = r'''
----
-module: veeam_vbr_managedservers_info
+# Pass in a message
 
-short_description: Get Veeam Backup & Replication Managed Servers.
-
-version_added: "1.0.0"
-
-description: Get Veeam Backup & Replication Managed Servers.
-
-options:
-    validate_certs:
-        description: Validate SSL certs.
-        required: false
-        default: false
-        type: bool
-    server_name:
-        description: VBR Server Name or IP
-        required: true
-        type: str
-    server_port:
-        description: VBR RestAPI Sever Port
-        required: false
-        default: 9419
-        type: str
-    server_username:
-        description: VBR Server Username
-        required: true
-        type: str
-    server_password:
-        description: VBR Server password
-        required: true
-        type: str
-
-author:
-    - Markus Kraus (@vMarkusK)
 '''
 
 EXAMPLES = r'''
 # Pass in a message
-- name: Test Veeam RestAPI Collection
-  hosts: localhost
-  tasks:
-  - name: Test veeam_vbr_managedservers_info
-    veeamhub.veeam_rest.veeam_vbr_managedservers_info:
-        server_name: '10.0.2.16'
-        server_username: 'Administrator'
-        server_password: '<Password>'
-    register: testout
-  - name: Debug Result
-    debug:
-        var: testout
+
 '''
 
 def run_module():
@@ -123,7 +79,7 @@ def run_module():
         'x-api-version': apiversion,
         'Authorization': 'Bearer ' + login_resp['access_token']
     }
-    request_url = 'https://' + request_server + ':' + request_port + '/api/v1/backupInfrastructure/managedServers'
+    request_url = 'https://' + request_server + ':' + request_port + '/api/v1/jobs'
 
     method = "Get"
     req, info = fetch_url(module, request_url, headers=headers, method=method)
@@ -146,7 +102,7 @@ def run_module():
 
     # Results
     try:
-        result['infrastructure_managedservers'] = json.loads(req.read())
+        result['infrastructure_jobs'] = json.loads(req.read())
     except AttributeError:
         module.fail_json(msg='Parsing Response Failed', **result)
 

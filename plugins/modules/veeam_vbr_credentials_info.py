@@ -4,6 +4,9 @@
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
+import json
+from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.urls import fetch_url
 
 DOCUMENTATION = r'''
 ---
@@ -59,12 +62,6 @@ EXAMPLES = r'''
         var: testout
 '''
 
-import json
-import re
-from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.urls import fetch_url
-
-
 def run_module():
     # define available arguments/parameters a user can pass to the module
     module_args = dict(
@@ -94,7 +91,7 @@ def run_module():
     )
 
     # General
-    apiversion = '1.0-rev1'
+    apiversion = '1.0-rev2'
 
     # Authenticate
     request_server = module.params['server_name']
@@ -105,8 +102,7 @@ def run_module():
     headers = {
         'accept': 'application/json',
         'x-api-version': apiversion,
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'true'
+        'Content-Type': 'application/x-www-form-urlencoded'
     }
 
     request_url = 'https://' + request_server + ':' + request_port + '/api/oauth2/token'

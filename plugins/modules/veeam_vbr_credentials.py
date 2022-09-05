@@ -4,6 +4,9 @@
 # GNU General Public License v3.0+ (see COPYING or https://www.gnu.org/licenses/gpl-3.0.txt)
 from __future__ import (absolute_import, division, print_function)
 __metaclass__ = type
+import json
+from ansible.module_utils.basic import AnsibleModule
+from ansible.module_utils.urls import fetch_url
 
 DOCUMENTATION = r'''
 ---
@@ -103,12 +106,6 @@ EXAMPLES = r'''
     debug:
         var: delete_cred
 '''
-
-import json
-import re
-from ansible.module_utils.basic import AnsibleModule
-from ansible.module_utils.urls import fetch_url
-
 
 def run_module():
     # define available arguments/parameters a user can pass to the module

@@ -107,7 +107,7 @@ Known Limitations:
         server_password: '<VBR Password>'
     register: testout
   - name: Debug Result
-    debug:
+    ansible.builtin.debug:
         var: testout
 ```
 
@@ -127,7 +127,7 @@ Get Veeam Backup & Replication Managed Servers.
         server_password: '<VBR Password>'
     register: testout
   - name: Debug Result
-    debug:
+    ansible.builtin.debug:
         var: testout
 ```
 
@@ -147,7 +147,7 @@ Get Veeam Backup & Replication Jobs.
         server_password: '<VBR Password>'
     register: job_testout
   - name: Debug VBR Jobs Result
-    debug:
+    ansible.builtin.debug:
         var: job_testout
 ```
 
@@ -215,7 +215,7 @@ End-to-End Create Veeam Job and vSphere VM:
         server_name: '<VBR Host>'
     register: api_testout
   - name: Debug VBR API-Test Result
-    debug:
+    ansible.builtin.debug:
         var: api_testout
   - name: Get VBR Repos
     veeamhub.veeam_rest.veeam_vbr_repositories_info:
@@ -224,7 +224,7 @@ End-to-End Create Veeam Job and vSphere VM:
         server_password: '<VBR Password>'
     register: repo_testout
   - name: Debug VBR Repos Result
-    debug:
+    ansible.builtin.debug:
         var: repo_testout | json_query(repos_query)
   - name: Filter Repo Object
     set_fact: 
@@ -246,7 +246,7 @@ End-to-End Create Veeam Job and vSphere VM:
         backupRepositoryId: "{{ repo_id[0] }}"
     register: job_createout
   - name: Debug VBR Jobs Result
-    debug:
+    ansible.builtin.debug:
         var: job_createout   
 
 ```
@@ -286,7 +286,7 @@ Endt-to-End Delete Veeam Job and vSphere VM:
         server_password: '<VBR Password>'
     register: job_testout
   - name: Debug VBR Jobs Result
-    debug:
+    ansible.builtin.debug:
         var: job_testout | json_query(jobs_query)
   - name: Filter Job Object
     set_fact: 

@@ -23,7 +23,7 @@ Get Current Veeam Backup Server Certificate from RestAPI.
         server_name: '<VBR Host>'
     register: testout
   - name: Debug Result
-    debug:
+    ansible.builtin.debug:
         var: testout
 ```
 ### veeam_vbr_credentials_info
@@ -42,7 +42,7 @@ Get Veeam Backup & Replication Credentials.
         server_password: '<VBR Password>'
     register: testout
   - name: Debug Result
-    debug:
+    ansible.builtin.debug:
         var: testout
 ```
 
@@ -71,7 +71,7 @@ Known Limitations:
         description: 'Created by Ansible RestAPI Module'
     register: create_cred
   - name: Debug Result
-    debug:
+    ansible.builtin.debug:
         var: create_cred
   - name: Test veeam_vbr_credentials Delete
     veeamhub.veeam_rest.veeam_vbr_credentials:
@@ -82,7 +82,7 @@ Known Limitations:
         state: absent
     register: delete_cred
   - name: Debug Result
-    debug:
+    ansible.builtin.debug:
         var: delete_cred
 ```
 

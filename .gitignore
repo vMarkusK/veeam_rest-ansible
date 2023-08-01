@@ -1,2 +1,6 @@
 # Test Outout
 tests/output/
+
+# Ansible
+*.retry
+plugins/modules/__pycache__
